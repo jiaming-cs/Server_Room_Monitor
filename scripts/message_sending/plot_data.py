@@ -6,7 +6,7 @@ def get_graph_data(time=[1, 2, 3], temp=[4, 5, 6], humi=[7,8,9]):
     fig = plt.figure()
     ax1 = fig.add_subplot(111)
     ax1.plot(time, temp, 'r', label="Temperature")
-    ax1.set_ylabel('Tempreature / °F')
+    ax1.set_ylabel('Tempreature / F')
     ax1.set_title("Sever Room Daily Temprature and Huminity Report")
     ax1.set_xlabel("Time (h)")
     

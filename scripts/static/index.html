@@ -26,7 +26,7 @@
             $.ajax({
                 url: '/api/gettmp',
                 success: function (data) {
-                    document.getElementById('temp').innerHTML = data[0] + "°C";
+                    document.getElementById('temp').innerHTML = data[0] + "F";
                     document.getElementById('hum').innerHTML = data[1] + "%";
                 }
             });
@@ -50,16 +50,16 @@
                
                 
                 <li>
-                        <span><i class="fas fa-temperature-high"></i>&nbsp;</span><span id='temp'>temperature</span>
+                        <span><i class="fas fa-temperature-high"></i>&nbsp;</span><span id='temp'>Temperature</span>
                 </li>
 
                                 
                 <li>
-                        <span><i class="fas fa-tint"></i>&nbsp;</span><span id='hum'>humidity</span>
+                        <span><i class="fas fa-tint"></i>&nbsp;</span><span id='hum'>Humidity</span>
                 </li>
 
                 <li>
-                        <span><i class="fas fa-exclamation-triangle"></i>&nbsp;</span><span id='vib'>vibration</span>    
+                        <span><i class="fas fa-exclamation-triangle"></i>/span><span id='vib'>Vibration</span>    
                 </li>
         </ul>
   

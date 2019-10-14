@@ -1,3 +1,4 @@
+
 import smtplib
 from email.mime.text import MIMEText
 from email.header import Header
@@ -6,6 +7,7 @@ from email.mime.multipart import MIMEMultipart
 from os.path import abspath, dirname
 import sys
 sys.path.append("..")
+
 from const_ import const
 
 
@@ -20,27 +22,20 @@ class EmailSending():
         self.from_email = self.username
         self.to_list = ["jli36@students.kennesaw.edu", "jiamingli9674@gmail.com"]
 
-    def send_email(self, time,  value, type = "tempreature"):
+    def send_email(self, time_str,  value, msg_type = "tempreature"):
         msg = MIMEMultipart()
         msg["From"] = Header("Server Room Monitor")
         msg["To"] = Header("Server Room Administrator")
-        msg["Subject"] = Header("Server Room Temprature Alert")
+        msg["Subject"] = Header("Server Room {msg_type_cap} Alert".format(msg_type_cap= "Temperature"))
 
-        text = """
-        <p1>Server Room Alert:</p1></br>
-        <p2>{}</p2><br/>
-        <p2>Tempterature monitor shows that the current {} is {} °C</p2></br>
-        <p2>please check the server room immediately!"</p2>
-        """.format(time, type, value)
+        text = const.ALEART_TEMPLET.format(msg_type_cap = "Temperature", time_str=time_str, msg_type=msg_type, value=value)
 
         text_part = MIMEText(text, "html", "utf-8")
         msg.attach(text_part)
-
-        try:
-            graph= open(abspath(dirname(__file__))+"\\graphs\\temp_humi_graph.png", "rb").read()
+        print(abspath(dirname(__file__))+"/graphs/temp_humi_graph.png")
+        graph = open(abspath(dirname(__file__))+"/graphs/temp_humi_graph.png", "rb").read()
             
-        except e:
-            print(e)
+        
         graph_part = MIMEApplication(graph)
         graph_part['Content-Disposition'] = 'attachment; filename="Temp_Humi_graph.png"' 
         msg.attach(graph_part)
@@ -55,3 +50,5 @@ class EmailSending():
         except smtplib.SMTPException:
             print ("Fail to send message")
         email_conn.quit()
+
+

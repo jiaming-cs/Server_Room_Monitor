@@ -1,5 +1,5 @@
 body {
-    background-color:#555;
+    background-color:rgb(0, 0, 0);
     font-size: 14px;
     color: #fff;
   }
@@ -22,7 +22,7 @@ body {
   }
   
   span {
-    font-size: 12em;
+    font-size: 10em;
     font-weight:bold;
     font-family: 'Lucida Sans';
   }

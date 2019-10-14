@@ -30,7 +30,7 @@ class Monitor(threading.Thread):
                 self.email_sending.send_email(time = t, value=self.sensor.temperature)
                 time.sleep(self.delay) # dealy for a while
                 self.delay *= 2 # every time send the message, double the delay time
-            
+                
 
 if __name__ == "__main__":
     monitor = Monitor()
