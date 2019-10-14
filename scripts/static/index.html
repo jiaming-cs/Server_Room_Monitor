@@ -1,0 +1,68 @@
+
+<html>
+ <head>
+  <title>Nothing</title>
+  <link rel="stylesheet" type="text/css" href="/static/style.css">
+  <script src="https://kit.fontawesome.com/35de04f08c.js" crossorigin="anonymous"></script>
+  <script>
+        function startTime() {
+          var today = new Date();
+          var h = today.getHours();
+          var m = today.getMinutes();
+          var s = today.getSeconds();
+          m = checkTime(m);
+          s = checkTime(s);
+          document.getElementById('txt').innerHTML =
+          h + ":" + m + ":" + s;
+          var t = setTimeout(startTime, 1000);
+        }
+        function checkTime(i) {
+          if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+          return i;
+        }
+
+        
+        function update_tmp(){
+            $.ajax({
+                url: '/api/gettmp',
+                success: function (data) {
+                    document.getElementById('temp').innerHTML = data[0] + "°C";
+                    document.getElementById('hum').innerHTML = data[1] + "%";
+                }
+            });
+        }
+
+        window.setInterval(function(){
+            update_tmp();
+        }, 2000);
+        
+    </script>
+
+
+<script src="/static/update.js"></script>
+
+ </head>
+ <body onload="startTime()">
+        <ul>
+                <li>
+                        <span><i class="fas fa-calendar-alt"></i></span><span id='txt'></span>
+                </li>
+               
+                
+                <li>
+                        <span><i class="fas fa-temperature-high"></i>&nbsp;</span><span id='temp'>temperature</span>
+                </li>
+
+                                
+                <li>
+                        <span><i class="fas fa-tint"></i>&nbsp;</span><span id='hum'>humidity</span>
+                </li>
+
+                <li>
+                        <span><i class="fas fa-exclamation-triangle"></i>&nbsp;</span><span id='vib'>vibration</span>    
+                </li>
+        </ul>
+  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ </body>
+</html>

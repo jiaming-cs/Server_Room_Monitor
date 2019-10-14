@@ -1,8 +1,11 @@
-from text_message_sending import MessageSending
-from email_message import EmailSending
-from get_temp_humi import GetTempHumi
+from message_sending.email_message import EmailSending
+from message_sending.text_message_sending import  MessageSending
+from data_gathering.get_temp_humi import GetTempHumi
+from message_sending.plot_data import get_graph_data
 import time
 import threading
+from backend import web
+
 class Monitor(threading.Thread):
     """
     Main thread
@@ -24,7 +27,7 @@ class Monitor(threading.Thread):
             if self.sensor.alert:
                 t = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) 
                 self.message_sending.send_message(time = t, value=self.sensor.temperature)
-                self.email_sending.send_emai(time = t, value=self.sensor.temperature)
+                self.email_sending.send_email(time = t, value=self.sensor.temperature)
                 time.sleep(self.delay) # dealy for a while
                 self.delay *= 2 # every time send the message, double the delay time
             
@@ -32,3 +35,6 @@ class Monitor(threading.Thread):
 if __name__ == "__main__":
     monitor = Monitor()
     monitor.start()
+    web.run("0.0.0.0", 5005)
+
+
