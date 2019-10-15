@@ -20,20 +20,7 @@ class GetTempHumi(threading.Thread):
         self.alert = False # if temprature exceeds the threshold, set alert true
         self.temperature = None
         self.humidity = None
-    '''
-    def add_recode(self, data_dic:dict, time_info):
     
-    def parse_time_str(self, time_str:str):
-        part_1 = time_str.split("-")
-        year = part_1[0]
-        month = part_1[1]
-        day = part_1[2]
-        part_2 = time_str.split(' ')[1].split(':')
-        hour = part_2[0]
-        minute = part_2[1]
-        second = part_2[2]
-        return (int(year), int(month), int(day), int(hour), int(minute))
-    '''
 
     # Try to grab a sensor reading.  Use the read_retry method which will retry up
     # to 15 times to get a sensor reading (waiting 2 seconds between each retry).
@@ -50,7 +37,7 @@ class GetTempHumi(threading.Thread):
             self.humidity, self.temperature = Adafruit_DHT.read_retry(self.sensor, self.pin)
             self.temperature = c_to_f(self.temperature)
             if self.humidity is not None and self.temperature is not None:
-                t = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())+
+                t = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
                 data_row = [t, self.temperature, self.humidity]
                 print(data_row)

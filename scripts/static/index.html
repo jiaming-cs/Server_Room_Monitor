@@ -1,7 +1,7 @@
 
 <html>
  <head>
-  <title>Nothing</title>
+  <title>Server Room Monitor</title>
   <link rel="stylesheet" type="text/css" href="/static/style.css">
   <script src="https://kit.fontawesome.com/35de04f08c.js" crossorigin="anonymous"></script>
   <script>
@@ -28,6 +28,7 @@
                 success: function (data) {
                     document.getElementById('temp').innerHTML = data[0] + "F";
                     document.getElementById('hum').innerHTML = data[1] + "%";
+                    document.getElementById('vib').innerHTML = "None"
                 }
             });
         }

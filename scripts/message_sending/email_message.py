@@ -24,7 +24,7 @@ class EmailSending():
         self.from_email = self.username
         self.to_list = ["jiamingli9674@gmail.com"]
 
-    def send_alert_email(self, time_str,  value, msg_type = const.TEMPERATURE):
+    def send_alert_email(self, time_str, value, msg_type = const.TEMPERATURE):
         msg = MIMEMultipart()
         msg["From"] = Header("Server Room Monitor")
         msg["To"] = Header("Server Room Administrator")
@@ -45,7 +45,7 @@ class EmailSending():
             print ("Fail to send message")
         email_conn.quit()
 
-    def send_report_email(self, data_num, msg_type = "tempreature"):
+    def send_report_email(self, data_num):
         msg = MIMEMultipart()
         msg["From"] = Header("Server Room Monitor")
         msg["To"] = Header("Server Room Administrator")
