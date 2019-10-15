@@ -31,7 +31,7 @@ class GetTempHumi(threading.Thread):
         print("Initialize the sensor... Please wait for senconds")
         self.humidity, self.temperature = Adafruit_DHT.read_retry(self.sensor, self.pin)
         time.sleep(2) # The first data can be not accurate, we skip it
-        csv_file = open(abspath(dirname(__file__))+"data_recod.csv", "a")
+        csv_file = open(abspath(dirname(__file__))+"data_record.csv", "a")
         csv_writer = csv.writer(csv_file)
         while True:
             self.humidity, self.temperature = Adafruit_DHT.read_retry(self.sensor, self.pin)

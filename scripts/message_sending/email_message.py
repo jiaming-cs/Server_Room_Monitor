@@ -51,7 +51,7 @@ class EmailSending():
         msg["To"] = Header("Server Room Administrator")
         msg["Subject"] = Header("Server room daily report")
 
-        csv_file = pd.read_csv(abspath(dirname(dirname(__file__)))+"/data_gathering/data_recod.csv")
+        csv_file = pd.read_csv(abspath(dirname(dirname(__file__)))+"/data_gathering/data_record.csv")
         data = csv_file.tail(data_num).to_dict("list")
         print(data)
         time_list = data[const.TIME]
@@ -61,7 +61,7 @@ class EmailSending():
 
         temp_max = max(temp_list)
         temp_min = min(temp_list)
-        temp_mean = round(np.mean(temp_list), 2)
+        temp_mean = round(np.mean(temp_list))
 
         humi_max = max(humi_list)
         humi_min = min(humi_list)
