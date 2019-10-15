@@ -27,7 +27,7 @@ class Monitor(threading.Thread):
             if self.sensor.alert:
                 t = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) 
                 self.message_sending.send_message(time = t, value=self.sensor.temperature)
-                self.email_sending.send_email(time = t, value=self.sensor.temperature)
+                self.email_sending.send_alert_email(time_str = t, value=self.sensor.temperature)
                 time.sleep(self.delay) # dealy for a while
                 self.delay *= 2 # every time send the message, double the delay time
                 
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     monitor.start()
     web.run("0.0.0.0", 5005)
 
-    em = EmailSending()
-    em.send_report_email(8)
+    #em = EmailSending()
+    #em.send_report_email(8)
     
 

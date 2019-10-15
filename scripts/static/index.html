@@ -1,9 +1,8 @@
-
 <html>
  <head>
-  <title>Nothing</title>
+  <title>Server Room Monitor</title>
   <link rel="stylesheet" type="text/css" href="/static/style.css">
-  <script src="https://kit.fontawesome.com/35de04f08c.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script>
         function startTime() {
           var today = new Date();
@@ -20,18 +19,16 @@
           if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
           return i;
         }
-
         
         function update_tmp(){
             $.ajax({
                 url: '/api/gettmp',
                 success: function (data) {
-                    document.getElementById('temp').innerHTML = data[0] + "F";
+                    document.getElementById('temp').innerHTML = data[0] + "°F";
                     document.getElementById('hum').innerHTML = data[1] + "%";
                 }
             });
         }
-
         window.setInterval(function(){
             update_tmp();
         }, 2000);
@@ -45,21 +42,17 @@
  <body onload="startTime()">
         <ul>
                 <li>
-                        <span><i class="fas fa-calendar-alt"></i></span><span id='txt'></span>
+                        <span><i class="fa fa-clock-o"></i></span><span id='txt'></span>
                 </li>
                
                 
                 <li>
-                        <span><i class="fas fa-temperature-high"></i>&nbsp;</span><span id='temp'>Temperature</span>
+                        <span><i class="fa fa-thermometer-half"></i>&nbsp;</span><span id='temp'>temperature</span>
                 </li>
 
                                 
                 <li>
-                        <span><i class="fas fa-tint"></i>&nbsp;</span><span id='hum'>Humidity</span>
-                </li>
-
-                <li>
-                        <span><i class="fas fa-exclamation-triangle"></i>/span><span id='vib'>Vibration</span>    
+                        <span><i class="fa fa-tint"></i>&nbsp;</span><span id='hum'>humidity</span>
                 </li>
         </ul>
   

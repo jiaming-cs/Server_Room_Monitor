@@ -1,18 +1,20 @@
 from flask import Flask, Response
 import Adafruit_DHT
 import json
+import pandas as pd
+from os.path import abspath, dirname
+from const_ import const
 
 web = Flask(__name__)
 
-def c_to_f(c):
-    f = round(32+1.8*c)
-    return f
+
 
 @web.route('/api/gettmp',methods=["GET", "POST"])
 def draw_stone():
-    d_hum,d_temp = Adafruit_DHT.read_retry(Adafruit_DHT.DHT22,4)
-    d_hum = d_hum
-    d_temp = c_to_f(d_temp)
+    csv_file = pd.read_csv(abspath(dirname(__file__))+"/data_gathering/data_record.csv")
+    data_list = csv_file.tail(1).to_dict("list")
+    d_temp = data_list[const.TEMPERATURE]
+    d_hum = data_list[const.HUMIDITY]
     data = [d_temp,d_hum]
     return Response(json.dumps(data),  mimetype='application/json')
 

@@ -51,9 +51,8 @@ class EmailSending():
         msg["To"] = Header("Server Room Administrator")
         msg["Subject"] = Header("Server room daily report")
 
-        csv_file = pd.read_csv(abspath(dirname(dirname(__file__)))+"/data_gathering/data_recod.csv")
+        csv_file = pd.read_csv(abspath(dirname(dirname(__file__)))+"/data_gathering/data_record.csv")
         data = csv_file.tail(data_num).to_dict("list")
-        print(data)
         time_list = data[const.TIME]
         temp_list = data[const.TEMPERATURE]
         humi_list = data[const.HUMIDITY]
@@ -72,7 +71,6 @@ class EmailSending():
             
         text_part = MIMEText(text, "html", "utf-8")
         msg.attach(text_part)
-        print(abspath(dirname(__file__))+"/graphs/temp_humi_graph.png")
         graph = open(abspath(dirname(__file__))+"/graphs/temp_humi_graph.png", "rb").read()
             
         
