@@ -50,8 +50,8 @@ REPORT_TEMPLET = """
         <td class="tg-vfh4" colspan="2">Humidity</td>
       </tr>
       <tr>
-        <td class="tg-p1dc" colspan="2">Average: {temp_avg}<br>Maximum: {temp_max}<br>Minimum: {temp_min}</td>
-        <td class="tg-p1dc" colspan="2">Average: {hum_avg}<br>Maximum: {hum_max}<br>Minimum: {hum_min}</td>
+        <td class="tg-p1dc" colspan="2">Average: {temp_avg}*F<br>Maximum: {temp_max}*F<br>Minimum: {temp_min}*F</td>
+        <td class="tg-p1dc" colspan="2">Average: {humi_avg}%<br>Maximum: {humi_max}%<br>Minimum: {humi_min}%</td>
       </tr>
       <tr>
         <td class="tg-p1dc" colspan="5"><span style="font-family:cursive;border-color:inherit;text-align:left;vertical-align:top">Auto message sent by:<br>Server Room Monitor</span></td>
@@ -60,3 +60,7 @@ REPORT_TEMPLET = """
     </table>
 
 """
+
+TEMPERATURE = "temperature"
+HUMIDITY = "humidity"
+TIME = "time"

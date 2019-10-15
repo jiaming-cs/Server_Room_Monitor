@@ -4,6 +4,7 @@ import time
 import threading
 import sys
 sys.path.append("..")
+from os.path import abspath, dirname
 from const_ import const
 import csv
 
@@ -43,15 +44,14 @@ class GetTempHumi(threading.Thread):
         print("Initialize the sensor... Please wait for senconds")
         self.humidity, self.temperature = Adafruit_DHT.read_retry(self.sensor, self.pin)
         time.sleep(2) # The first data can be not accurate, we skip it
-        csv_file = open("data_recod.csv", "a")
+        csv_file = open(abspath(dirname(__file__))+"data_recod.csv", "a")
         csv_writer = csv.writer(csv_file)
         while True:
             self.humidity, self.temperature = Adafruit_DHT.read_retry(self.sensor, self.pin)
             self.temperature = c_to_f(self.temperature)
             if self.humidity is not None and self.temperature is not None:
-                t = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())+":"
-                #print(t)
-                #print('Temp={0:0.1f}F Humidity={1:0.1f}%'.format(self.temperature, self.humidity)) 
+                t = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())+
+
                 data_row = [t, self.temperature, self.humidity]
                 print(data_row)
                 csv_writer.writerow(data_row)

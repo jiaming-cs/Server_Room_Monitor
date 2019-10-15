@@ -1,8 +1,14 @@
 from matplotlib import pyplot as plt
 from os.path import abspath, dirname
 
-
-def get_graph_data(time=[1, 2, 3], temp=[4, 5, 6], humi=[7,8,9]):
+def handle_time(time):
+    out = []
+    for t in time:
+        out.append(t.split(" ")[1])
+    return out
+    
+def get_graph_data(time, temp, humi):
+    time = handle_time(time)
     fig = plt.figure()
     ax1 = fig.add_subplot(111)
     ax1.plot(time, temp, 'r', label="Temperature")
