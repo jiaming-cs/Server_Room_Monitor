@@ -12,7 +12,7 @@ class GetTempHumi(threading.Thread):
     '''
     Using Adafruit_DTH library to collect data from the DHT11 Temprature & Humidity sensor
     '''
-    def __init__(self, sensor = Adafruit_DHT.DHT11, pin = 3, alert_f_temp = 90 ):
+    def __init__(self, sensor = Adafruit_DHT.DHT11, pin = 3, alert_f_temp = 86 ):
         threading.Thread.__init__(self)
         self.sensor = sensor # set sensor type  
         self.pin = pin #set GPIO pin

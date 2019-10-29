@@ -37,7 +37,7 @@ if __name__ == "__main__":
     
     monitor = Monitor()
     monitor.start()
-    web.run("0.0.0.0", 5005)
+    web.run("127.0.0.1", 5000)
 
     #em = EmailSending()
     #em.send_report_email(8)
