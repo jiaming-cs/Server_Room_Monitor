@@ -1,11 +1,13 @@
-from flask import Flask, Response
+from flask import Flask, Response, request
 import Adafruit_DHT
 import json
 import pandas as pd
 from os.path import abspath, dirname
 from const_ import const
 
+
 web = Flask(__name__)
+
 
 
 
@@ -22,5 +24,20 @@ def draw_stone():
 @web.route('/')
 def staff_page():
     return web.send_static_file('index.html')
+
+@web.route("/subscribe/", methods = ["POST"])
+def subscribe():
+    getData = request.args # 利用request对象获取GET请求数据
+    print('获取的GET数据为：', getData) # 打印获取到的GET数据 ImmutableMultiDict([])
+    postData = request.form # 利用request对象获取POST请求数据
+    print('获取的POST数据为：', postData) # 打印获取到的POST请求 ImmutableMultiDict([('username', '456'), ('password', '789')])
+    name = request.form.get('Name') 
+    email = request.form.get('Email')
+    phone_number = request.form.get('Phone Number')
+    print(name)
+    print(email)
+    print(phone_number)
+    
+    return web.send_static_file('subscribe.html')
 
 

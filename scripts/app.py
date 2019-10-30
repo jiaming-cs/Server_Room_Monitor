@@ -34,7 +34,6 @@ class Monitor(threading.Thread):
 
 if __name__ == "__main__":
 
-    
     monitor = Monitor()
     monitor.start()
     web.run("127.0.0.1", 5000)
