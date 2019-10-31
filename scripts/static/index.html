@@ -1,146 +1,118 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Server Room Monitor</title>
+<title>Sever Room Monitor</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<style>
-   
-    ul {
-       
-      vertical-align: left;
-      list-style:none;
-      align-self: left;
-    }
-  
-    li {
-      text-align:left;  
-      white-space: nowrap;
-    }
-    span {
-      font-size: 12em;
-      font-weight:bold;
-      font-family: 'Lucida Sans';
-    }
-    li {
-      text-align:left;  
-      white-space: nowrap;
-    }
-    span {
-      font-size: 6em;
-      font-weight:bold;
-      font-family: 'Lucida Sans';
-    }
-</style>
 <script>
-      function startTime() {
-        var today = new Date();
-        var h = today.getHours();
-        var m = today.getMinutes();
-        var s = today.getSeconds();
-        m = checkTime(m);
-        s = checkTime(s);
-        document.getElementById('txt').innerHTML =
-        h + ":" + m + ":" + s;
-        var t = setTimeout(startTime, 1000);
-      }
-      function checkTime(i) {
-        if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-        return i;
-      }
-      function update_tmp(){
-          $.ajax({
-              url: '/api/gettmp',
-              success: function (data) {
-                  document.getElementById('temp').innerHTML = data[0] + "F";
-                  document.getElementById('hum').innerHTML = data[1] + "%";
-              }
-          });
-         
-      }
-      window.setInterval(update_tmp(), 2000)
-      
-      
-  </script>
-</head>
-<body class="w3-content" style="max-width:1300px" onload="startTime()">
-
-<!-- First Grid: Logo & About -->
-<div class="w3-row">
-  <div class="w3-half w3-black w3-container w3-center" style="height:700px">
-    <div class="w3-padding-64">
-      <h1>Server Room Monitor</h1>
-    </div>
-    <div class="w3-padding-64">
-      <a href="#" class="w3-button w3-black w3-block w3-hover-blue-grey w3-padding-16">Information</a>
-      <a href="#subscribe" class="w3-button w3-black w3-block w3-hover-brown w3-padding-16">Subscribe Message</a>
-    </div>
-  </div>
-  <div class="w3-half w3-blue-grey w3-container" style="height:700px">
-    <div class="w3-padding-64 w3-center">
-      <h1>Current Condition</h1>
-      <div class="w3-left-align w3-padding-large">
-        <ul>
-            <li>
-                    <span id='txt'></span>
-            </li>
+        function startTime() {
+          var today = new Date();
+          var h = today.getHours();
+          var m = today.getMinutes();
+          var s = today.getSeconds();
+          m = checkTime(m);
+          s = checkTime(s);
+          document.getElementById('txt').innerHTML =
+          h + ":" + m + ":" + s;
+          var t = setTimeout(startTime, 1000);
+        }
+        function checkTime(i) {
+          if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+          return i;
+        }
+        function update_tmp(){
+            $.ajax({
+                url: '/api/gettmp',
+                success: function (data) {
+                    document.getElementById('temp').innerHTML = data[0] + "F";
+                    document.getElementById('hum').innerHTML = data[1] + "%";
+                }
+            });
            
-            <li>
-                    </span><span id='temp'>Temperature</span>
-            </li>
+        }
+        window.setInterval(update_tmp(), 2000)
+    </script>
+<style>
 
-                            
-            <li>
-                    <span id='hum'>Humidity</span>
-            </li>
+ul {
+vertical-align: left;
+list-style:none;
+align-self: left;
+}
 
-        </ul>
-      </div>
-    </div>
+li {
+text-align:left;  
+white-space: nowrap;
+}
+span {
+font-size: 1em;
+font-weight:bold;
+font-family: 'Lucida Sans';
+}
+body,h1,h5 {font-family: "Raleway", sans-serif}
+body, html {height: 100%}
+.bgimg {
+  background-image: url('/static/bkimg2.jpg');
+  min-height: 100%;
+  background-position: center;
+  background-size: cover;
+}
+</style>
+
+</head>
+<body onload="startTime()">
+
+<div class="bgimg w3-display-container w3-text-white">
+  <div class="w3-display-middle w3-jumbo">
+        <ul>
+                <li>
+                    <i class="glyphicon glyphicon-time"></i><span id='txt'></span>
+                </li>
+               
+                <li>
+                    <i class="glyphicon glyphicon-fire"></i></span><span id='temp'>Temperature</span>
+                </li>
+       
+                <li>
+                    <i class="glyphicon glyphicon-tint"></i><span id='hum'>Humidity</span>
+                </li>
+    
+            </ul>
+  </div>
+  <div class="w3-display-topleft w3-container w3-xlarge">
+    <p><button onclick="document.getElementById('contact').style.display='block'" class="w3-button w3-black">Subscribe</button></p>
+  </div>
+  <div class="w3-display-bottomleft w3-container">
+    <p class="w3-xlarge">Help you handle everthing remotly</p>
+    <p>Server Room Monitor</p>
   </div>
 </div>
 
-<div class="w3-row" id="subscribe">
-  <div class="w3-half w3-dark-grey w3-container w3-center" style="height:700px">
-    <div class="w3-padding-64">
-      <h1>Subscribe the Message Notification</h1>
+
+
+<!-- Contact Modal -->
+<div id="contact" class="w3-modal">
+  <div class="w3-modal-content w3-animate-zoom">
+    <div class="w3-container w3-black">
+      <span onclick="document.getElementById('contact').style.display='none'" class="w3-button w3-display-topright w3-large">x</span>
+      <h1>Subscribe</h1>
     </div>
-    <div class="w3-padding-64">
-      <p>Enter your name</p>
-      <p>Email address</p>
-      <p>Phone number</p>
-    </div>
-  </div>
-  <div class="w3-half w3-teal w3-container" style="height:700px">
-    <div class="w3-padding-64 w3-padding-large">
-      <h1>Register</h1>
-      <form class="w3-container w3-card w3-padding-32 w3-white" action="/subscribe/" method="POST">
-        <div class="w3-section">
-          <label>Name</label>
-          <input class="w3-input" style="width:100%;" type="text" required name="Name">
-        </div>
-        <div class="w3-section">
-          <label>Email</label>
-          <input class="w3-input" style="width:100%;" type="text" required name="Email">
-        </div>
-        <div class="w3-section">
-          <label>Phone Number</label>
-          <input class="w3-input" style="width:100%;" type="tel" required name="Phone Number">
-        </div>
-        <button type="submit" class="w3-button w3-teal w3-right">Submit</button>
+    <div class="w3-container">
+      <p>You will receve message when the condition in server room is abnormal</p>
+      <form action="/subscribe/" method="POST" >
+        <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Name" required name="Name"></p>
+        <p><input class="w3-input w3-padding-16 w3-border" type="eamil" placeholder="Your Eamil Address" required name="Email"></p>
+        <p><input class="w3-input w3-padding-16 w3-border" type="tel" placeholder="Your Phone Number" required name="Phone Number"></p>
+        <p><button class="w3-button" type="submit">SEND MESSAGE</button></p>
       </form>
     </div>
   </div>
 </div>
 
-<!-- Footer -->
-<footer class="w3-container w3-black w3-padding-16">
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-</footer>
-
 </body>
 </html>
+

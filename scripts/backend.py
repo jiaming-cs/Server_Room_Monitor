@@ -4,6 +4,7 @@ import json
 import pandas as pd
 from os.path import abspath, dirname
 from const_ import const
+import csv
 
 
 web = Flask(__name__)
@@ -27,16 +28,16 @@ def staff_page():
 
 @web.route("/subscribe/", methods = ["POST"])
 def subscribe():
-    getData = request.args # 利用request对象获取GET请求数据
-    print('获取的GET数据为：', getData) # 打印获取到的GET数据 ImmutableMultiDict([])
-    postData = request.form # 利用request对象获取POST请求数据
-    print('获取的POST数据为：', postData) # 打印获取到的POST请求 ImmutableMultiDict([('username', '456'), ('password', '789')])
+    postData = request.form 
     name = request.form.get('Name') 
     email = request.form.get('Email')
-    phone_number = request.form.get('Phone Number')
+    phone = request.form.get('Phone Number')
     print(name)
     print(email)
-    print(phone_number)
+    print(phone)
+    with open("/data/gathering/user_record.csv", "w") as csv_file:
+        csv_writer = csv.writer(csv_file)
+
     
     return web.send_static_file('subscribe.html')
 
