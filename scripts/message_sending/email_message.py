@@ -22,13 +22,24 @@ class EmailSending():
         self.username = const.EMAIL_USER_NAME
         self.passwd = const.EMAIL_PASS_WORD
         self.from_email = self.username
-        self.to_list = ["jiamingli9674@gmail.com"]
-
+        self.to_list = ["jli36@kennesaw.edu"]
+    
+    def get_user_list(self):
+        
+        df = pd.read_csv(abspath(dirname(dirname(__file__)))+"/data_gathering/user_record.csv")
+        data = df.tail(5).to_dict("list")
+        print(data)
+        users = data[const.EMAIL]
+        print(users)
+        if len(users) != 0:
+            self.to_list = users
+        
     def send_alert_email(self, time_str, value, msg_type = const.TEMPERATURE):
         msg = MIMEMultipart()
         msg["From"] = Header("Server Room Monitor")
         msg["To"] = Header("Server Room Administrator")
         msg["Subject"] = Header("Server room {msg_type} alert".format(msg_type= msg_type))
+        self.get_user_list()
 
         text = const.ALEART_TEMPLET.format(msg_type_cap = msg_type, time_str=time_str, msg_type=msg_type, value=value)
 
@@ -45,11 +56,40 @@ class EmailSending():
             print ("Fail to send message")
         email_conn.quit()
 
+    
+    def send_confirm_email(self, user_data):
+        msg = MIMEMultipart()
+        msg["From"] = Header("Server Room Monitor")
+        msg["To"] = Header("Server Room Administrator")
+        msg["Subject"] = Header("Subscribe Confirmation")
+
+        text = const.CONFIRMATION_TEMPLET.format(user = user_data[0])
+            
+        text_part = MIMEText(text, "html", "utf-8")
+        msg.attach(text_part)
+        
+
+        try:
+            email_conn = smtplib.SMTP(self.host, self.port)
+            status_code, msg = email_conn.ehlo()
+            print(status_code)
+            email_conn.starttls()
+            email_conn.login(self.username, self.passwd)
+            email_conn.sendmail(self.from_email, user_data[1], msg.as_string())
+            print("Send the confirmation email successfully!")
+        except smtplib.SMTPException:
+            print ("Fail to send confirmation email")
+        email_conn.quit()
+
+
+
+
     def send_report_email(self, data_num):
         msg = MIMEMultipart()
         msg["From"] = Header("Server Room Monitor")
         msg["To"] = Header("Server Room Administrator")
         msg["Subject"] = Header("Server room daily report")
+        self.get_user_list()
 
         csv_file = pd.read_csv(abspath(dirname(dirname(__file__)))+"/data_gathering/data_record.csv")
         data = csv_file.tail(data_num).to_dict("list")

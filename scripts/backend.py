@@ -5,6 +5,7 @@ import pandas as pd
 from os.path import abspath, dirname
 from const_ import const
 import csv
+from message_sending.email_message import EmailSending
 
 
 web = Flask(__name__)
@@ -28,17 +29,37 @@ def staff_page():
 
 @web.route("/subscribe/", methods = ["POST"])
 def subscribe():
+    import re
+    def validateEmail(email):
+        if len(email) > 7:
+            if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", email) != None:
+                return True
+        return False
     postData = request.form 
     name = request.form.get('Name') 
-    email = request.form.get('Email')
+    email_addr = request.form.get('Email')
     phone = request.form.get('Phone Number')
     print(name)
-    print(email)
+    print(email_addr)
     print(phone)
-    with open("/data/gathering/user_record.csv", "w") as csv_file:
-        csv_writer = csv.writer(csv_file)
+    with open(abspath(dirname(__file__))+"/data_gathering/user_record.csv", "a") as csv_file:
+        user_data = []
+        user_data = [name, email_addr, phone]
+        try:
+            es = EmailSending()
+            es.send_confirm_email(user_data)
+            if not validateEmail(user_data[1]):
+                return web.send_static_file('unsuccessful.html')
+            csv_writer = csv.writer(csv_file)
+            csv_writer.writerow(user_data)
+            print("subscribe")
+            return web.send_static_file('subscribe.html')
+
+        except:
+            print("Invalid email address!")
+            return web.send_static_file('unsuccessful.html')
 
     
-    return web.send_static_file('subscribe.html')
+    
 
 

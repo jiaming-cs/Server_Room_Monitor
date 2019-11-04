@@ -61,6 +61,20 @@ REPORT_TEMPLET = """
 
 """
 
+CONFIRMATION_TEMPLET = """
+
+<p>Hello {user},</p>
+
+<p>Congratulations! You have successfully subscribe the information notice from Server Room Monitor.</p>
+</br>
+</br>
+<p>Email sent by Server Room Monitor</p>
+
+"""
+
 TEMPERATURE = "temperature"
 HUMIDITY = "humidity"
 TIME = "time"
+NAME = "name"
+EMAIL = "email"
+PHONE = "phone"
