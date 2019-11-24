@@ -10,9 +10,6 @@ from message_sending.email_message import EmailSending
 
 web = Flask(__name__)
 
-
-
-
 @web.route('/api/gettmp',methods=["GET", "POST"])
 def draw_stone():
     csv_file = pd.read_csv(abspath(dirname(__file__))+"/data_gathering/data_record.csv")
@@ -59,6 +56,26 @@ def subscribe():
             print("Invalid email address!")
             return web.send_static_file('unsuccessful.html')
 
+
+@web.route("/unsubscribe", methods = ["POST"])
+def unsubscribe():
+    
+    postData = request.form 
+   
+    email_addr = request.form.get('Email')
+
+    df = pd.read_csv(abspath(dirname(__file__))+"/data_gathering/user_record.csv") 
+    old_row_number = df.shape[0]
+    df = df[df['email'] != email_addr]
+    new_row_number = df.shape[0]
+    
+
+    if(new_row_number < old_row_number):
+        df.to_csv(abspath(dirname(__file__))+"/data_gathering/user_record.csv", index=0)
+        return web.send_static_file('unsubscribe.html')
+    else:
+        print("errors!")
+        return web.send_static_file('unsuccessful.html')
     
     
 

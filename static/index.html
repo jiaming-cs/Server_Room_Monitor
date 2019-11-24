@@ -84,8 +84,12 @@ body, html {height: 100%}
             </ul>
   </div>
   <div class="w3-display-topleft w3-container w3-xlarge">
-    <p><button onclick="document.getElementById('contact').style.display='block'" class="w3-button w3-black">Subscribe</button></p>
+    <p><button onclick="document.getElementById('subscribe').style.display='block'" class="w3-button w3-black">Subscribe</button></p>
+    <p><button onclick="document.getElementById('unsubscribe').style.display='block'" class="w3-button w3-black">Unsubscribe</button></p>
   </div>
+  
+    
+
   <div class="w3-display-bottomleft w3-container">
     <p class="w3-xlarge">Help you handle everthing remotly</p>
     <p>Server Room Monitor</p>
@@ -94,20 +98,37 @@ body, html {height: 100%}
 
 
 
-<!-- Contact Modal -->
-<div id="contact" class="w3-modal">
+<!-- subscribe Modal -->
+<div id="subscribe" class="w3-modal">
   <div class="w3-modal-content w3-animate-zoom">
     <div class="w3-container w3-black">
-      <span onclick="document.getElementById('contact').style.display='none'" class="w3-button w3-display-topright w3-large">x</span>
+      <span onclick="document.getElementById('subscribe').style.display='none'" class="w3-button w3-display-topright w3-large">x</span>
       <h1>Subscribe</h1>
     </div>
     <div class="w3-container">
-      <p>You will receve message when the condition in server room is abnormal</p>
+      <p><b>You will receve message when the condition in server room is abnormal</b></p>
       <form action="/subscribe/" method="POST" >
         <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Name" required name="Name"></p>
         <p><input class="w3-input w3-padding-16 w3-border" type="eamil" placeholder="Your Eamil Address" required name="Email"></p>
         <p><input class="w3-input w3-padding-16 w3-border" type="tel" placeholder="Your Phone Number" required name="Phone Number"></p>
-        <p><button class="w3-button" type="submit">SEND MESSAGE</button></p>
+        <p><button class="w3-button" type="submit">Submit</button></p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Unsubscribe Modal -->
+<div id="unsubscribe" class="w3-modal">
+  <div class="w3-modal-content w3-animate-zoom">
+    <div class="w3-container w3-black">
+      <span onclick="document.getElementById('unsubscribe').style.display='none'" class="w3-button w3-display-topright w3-large">x</span>
+      <h1>Unsubscribe</h1>
+    </div>
+    <div class="w3-container">
+      <p><b>You will stop receving message from Sever Room Monitor if you unsubscribe it!</b></p>
+      <form action="/unsubscribe" method = "POST">
+        <p><input class="w3-input w3-padding-16 w3-border" type="email" placeholder="Your email address" required name="Email"></p>
+        <p><button class="w3-button" type="submit">Submit</button></p>
       </form>
     </div>
   </div>

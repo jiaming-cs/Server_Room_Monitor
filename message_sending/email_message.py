@@ -71,8 +71,7 @@ class EmailSending():
 
         try:
             email_conn = smtplib.SMTP(self.host, self.port)
-            status_code, msg = email_conn.ehlo()
-            print(status_code)
+            email_conn.ehlo()
             email_conn.starttls()
             email_conn.login(self.username, self.passwd)
             email_conn.sendmail(self.from_email, user_data[1], msg.as_string())
