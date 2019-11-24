@@ -1,22 +1,19 @@
 from flask import Flask, Response, request
-import Adafruit_DHT
 import json
 import pandas as pd
 from os.path import abspath, dirname
 from const_ import const
 import csv
 from message_sending.email_message import EmailSending
+from data_gathering.get_temp_humi import get_data
 
 
 web = Flask(__name__)
 
 @web.route('/api/gettmp',methods=["GET", "POST"])
 def draw_stone():
-    csv_file = pd.read_csv(abspath(dirname(__file__))+"/data_gathering/data_record.csv")
-    data_list = csv_file.tail(1).to_dict("list")
-    d_temp = data_list[const.TEMPERATURE]
-    d_hum = data_list[const.HUMIDITY]
-    data = [d_temp,d_hum]
+    data = get_data()
+    print(data)
     return Response(json.dumps(data),  mimetype='application/json')
 
 
@@ -76,6 +73,9 @@ def unsubscribe():
     else:
         print("errors!")
         return web.send_static_file('unsuccessful.html')
+
+if __name__ == "__main__":
+    web.run("127.0.0.1", debug=True)
     
     
 
