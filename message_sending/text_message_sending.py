@@ -14,14 +14,18 @@ class MessageSending():
 
 
     def send_message(self, time, value, type="tempreture"):
-        message_body = "Server Room Alert: {} Tempterature monitor shows that current {} is {}*C. Please check the server room immediately!".format(time, type, value)
-        try:
-            message = self.client.messages.create(
-                to = self.number_to_text,
-                from_ = self.twilio_numer,
-                body = message_body
-            )
-            print("Send text Message successfully!")
-            print(message_body)
+        message_body = "Server Room Alert: {} Tempterature monitor shows that current {} is {}*F. Please check the server room immediately!".format(time, type, value)
+        #try:
+        message = self.client.messages.create(
+            to = self.number_to_text,
+            from_ = self.twilio_numer,
+            body = message_body
+        )
+        print("Send text Message successfully!")
+        print(message_body)
+        '''
         except:
             print("Fail to send message!")
+        '''
+tm = MessageSending()
+tm.send_message("3-59", "temp", 44)

@@ -28,8 +28,15 @@
             $.ajax({
                 url: '/api/gettmp',
                 success: function (data) {
+                    if(data['temp'] == -1 ){
+                    document.getElementById('temp').innerHTML = " N/A ";
+                    document.getElementById('hum').innerHTML = " N/A";
+                    }
+                    else{
                     document.getElementById('temp').innerHTML = data['temp'] + "F";
                     document.getElementById('hum').innerHTML = data['humidity'] + "%";
+                    }
+                    
                 }
             });
         }

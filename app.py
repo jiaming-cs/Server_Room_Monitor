@@ -1,4 +1,4 @@
-from flask import Flask, Response, request
+from flask import Flask, Response, request, render_template
 import json
 import pandas as pd
 from os.path import abspath, dirname
@@ -6,6 +6,7 @@ from const_ import const
 import csv
 from message_sending.email_message import EmailSending
 from data_gathering.get_temp_humi import get_data
+import MySQLdb
 
 
 web = Flask(__name__)
@@ -15,11 +16,12 @@ def draw_stone():
     data = get_data()
     print(data)
     return Response(json.dumps(data),  mimetype='application/json')
-
+    
 
 @web.route('/')
 def staff_page():
-    return web.send_static_file('index.html')
+    return render_template('/index.html')
+
 
 @web.route("/subscribe/", methods = ["POST"])
 def subscribe():
@@ -36,46 +38,68 @@ def subscribe():
     print(name)
     print(email_addr)
     print(phone)
-    with open(abspath(dirname(__file__))+"/data_gathering/user_record.csv", "a") as csv_file:
-        user_data = []
-        user_data = [name, email_addr, phone]
+    if len(name)>30:
+        return render_template('/temp1.html', title="Your Nmae Is Too Long",\
+        top_info = "Oops, Some Errors",\
+        boto_info = "Please input another name with shorter length.")
+    if not validateEmail(email_addr):
+        return render_template('/temp1.html', title="Invalid Email Address",\
+        top_info = "Oops, Some Errors",\
+        boto_info = "{email} is not a vailid email address.".format(email_addr))
+    if (not phone.isdigit()) or len(phone)!=10:
+        return render_template('/temp1.html', title="Invalid Phone Number",\
+        top_info = "Oops, Some Errors",\
+        boto_info = "{phone} is not a vailid US phone number.".format(email_addr))
+    db = MySQLdb.connect(host = "52.43.93.127", user = "root", passwd = "ljm960704519", db = "server")
+    cursor = db.cursor()
+    sql = "select email from users where email = '{email}';".format(email = email_addr)
+    cursor.execute(sql)
+    flag = len(cursor.fetchall())
+    if (flag == 0):
         try:
-            es = EmailSending()
-            es.send_confirm_email(user_data)
-            if not validateEmail(user_data[1]):
-                return web.send_static_file('unsuccessful.html')
-            csv_writer = csv.writer(csv_file)
-            csv_writer.writerow(user_data)
+            sql = "insert into users values('{name}','{email}','{phone}');".format(name = name, email = email_addr, phone = phone)
+            cursor.execute(sql)
+            db.commit()
+            em = EmailSending()
+            em.send_confirm_email(name, email_addr)
+            db.close()
             print("subscribe")
-            return web.send_static_file('subscribe.html')
-
+            return render_template('/temp1.html', title="Successul",\
+            top_info = "Welcome, {name}".format(name = name),\
+            boto_info = "You have successfully subscribe the message notification with {email}.".format( email = email_addr))
         except:
-            print("Invalid email address!")
-            return web.send_static_file('unsuccessful.html')
+            sql = "delet from users where email = '{email}'".format(email = email)
+            cursor.execute(sql)
+            db.commit()
+            db.close()
+            return render_template('/temp1.html', title="Unknow Error",\
+            top_info = "Oops, Some Errors",\
+            boto_info = "{name}, unknow errors, please subscribe again!".format(name = name))
+
+    else:
+        db.close()
+        return render_template('/temp1.html', title="You Have Already Subscribed",\
+        top_info = "Oops, Some Errors",\
+        boto_info = "{name}, The email address {email} has alreay subscribed our notification.".format(name = name, email = email_addr))
 
 
 @web.route("/unsubscribe", methods = ["POST"])
 def unsubscribe():
-    
     postData = request.form 
-   
     email_addr = request.form.get('Email')
+    db = MySQLdb.connect(host = "52.43.93.127", user = "root", passwd = "ljm960704519", db = "server")
+    cursor = db.cursor()
+    sql = "delete from users where email = '{email}';".format(email = email_addr)
+    cursor.execute(sql)
+    db.commit()
+    db.close()
+    return render_template('/temp1.html', title="Successul Unsubscribe",\
+        top_info = "See  You  Again",\
+        boto_info = "You will stop receiving messages from {email}.".format(email = email_addr))
 
-    df = pd.read_csv(abspath(dirname(__file__))+"/data_gathering/user_record.csv") 
-    old_row_number = df.shape[0]
-    df = df[df['email'] != email_addr]
-    new_row_number = df.shape[0]
-    
-
-    if(new_row_number < old_row_number):
-        df.to_csv(abspath(dirname(__file__))+"/data_gathering/user_record.csv", index=0)
-        return web.send_static_file('unsubscribe.html')
-    else:
-        print("errors!")
-        return web.send_static_file('unsuccessful.html')
-
+   
 if __name__ == "__main__":
-    web.run("127.0.0.1", debug=True)
+    web.run("0.0.0.0", debug=True)
     
     
 

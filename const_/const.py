@@ -40,7 +40,8 @@ REPORT_TEMPLET = """
         <th class="tg-okmv" colspan="5"><span style="font-weight:bold;font-size:16px;background-color:#34ff34;border-color:inherit;text-align:center;vertical-align:top">Server Room Daily Report</span></th>
       </tr>
       <tr>
-        <td class="tg-p9hc" colspan="5" rowspan="2"><span style="font-family:serif;border-color:#000000;text-align:left;vertical-align:top">Hello Admin:<br><br>Here is the daily report of server room condition </span></td>
+        <td class="tg-p9hc" colspan="5" rowspan="2"><span style="font-family:serif;border-color:#000000;text-align:left;vertical-align:top">Hello {user_name}<br><br>{welcome} Here is server room condition condition report from {start_time} to {end_time}.\
+        </br>You will keep receiving report every day. To unsubscribe message notification, go to <a href="www.ksuserver.club/">Server Room Monitor Web Page</a>.</span></td>
       </tr>
       <tr>
       </tr>
@@ -54,23 +55,13 @@ REPORT_TEMPLET = """
         <td class="tg-p1dc" colspan="2">Average: {humi_avg}%<br>Maximum: {humi_max}%<br>Minimum: {humi_min}%</td>
       </tr>
       <tr>
-        <td class="tg-p1dc" colspan="5"><span style="font-family:cursive;border-color:inherit;text-align:left;vertical-align:top">Auto message sent by:<br>Server Room Monitor</span></td>
+        <td class="tg-p1dc" colspan="5"><span style="font-family:cursive;border-color:inherit;text-align:left;vertical-align:top">Auto message sent by:<br><a href="www.ksuserver.club/">Server Room Monitor</a></span></td>
       </tr>
     </span>
     </table>
 
 """
 
-CONFIRMATION_TEMPLET = """
-
-<p>Hello {user},</p>
-
-<p>Congratulations! You have successfully subscribe the information notice from Server Room Monitor.</p>
-</br>
-</br>
-<p>Email sent by Server Room Monitor</p>
-
-"""
 
 TEMPERATURE = "temperature"
 HUMIDITY = "humidity"
