@@ -58,7 +58,7 @@ six==1.13.0
 ssh-import-id==5.7
 systemd-python==234
 twilio==6.33.1
-Twisted==17.9.0
+Twisted==19.7.0
 ufw==0.36
 unattended-upgrades==0.1
 urllib3==1.25.7
