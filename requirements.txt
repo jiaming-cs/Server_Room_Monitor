@@ -61,7 +61,7 @@ twilio==6.33.1
 Twisted==17.9.0
 ufw==0.36
 unattended-upgrades==0.1
-urllib3==1.25.7
+urllib3==1.25.8
 virtualenv==16.7.8
 Werkzeug==0.16.0
 zope.interface==4.3.2
